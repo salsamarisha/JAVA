@@ -1,0 +1,139 @@
+package mmll;
+
+import java.util.NoSuchElementException;
+import java.util.Random;
+import java.util.Scanner;
+
+public class MMLL {
+
+    private Node first;
+    private Node last;
+
+    private static class Node {
+        int element;
+        Node next;
+        Node(int element, Node node) {
+            this.element = element;
+            this.next = node;
+        }
+    }
+
+    public void displayList() {
+        Node tempFirst = first;
+        while (tempFirst != null) {
+            System.out.print(tempFirst.element + " ");
+            tempFirst = tempFirst.next;
+        }
+    }
+
+    public void add (int val) {
+        final Node l = last;
+        final Node newNode = new Node(val, null);
+        last = newNode;
+        if (first == null) {
+            first = newNode;
+        } else {
+            l.next = newNode;
+        }
+    }
+
+    public void sort() {
+        first = divide(first, last);
+    }
+
+
+    private Node getMidPoint(Node node) {
+        assert node != null;
+
+        Node fast = node.next;
+        Node slow = node;
+
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        return slow;
+    } 
+
+
+    private Node divide(Node node1, Node node2) {
+        if (node1 == node2) return node1;
+
+        Node midPoint = getMidPoint(node1);
+        Node midpointNext = midPoint.next;
+        midPoint.next = null;
+
+        Node n1 = divide(node1, midPoint);
+        Node n2 = divide(midpointNext, node2);
+        return mergeLinkedList(n1, n2);
+    }
+
+
+    private Node mergeLinkedList(Node node1, Node node2) {
+        assert node1 != null;
+        assert node2 != null;
+
+        Node current = null;
+        Node currentHead = null;
+
+        while (node1 != null && node2 != null) {
+
+            if (node1.element < node2.element) {
+                if (current == null) {
+                    currentHead = node1;
+                    current = node1;
+                } else {
+                    current.next = node1;
+                    current = current.next;
+                }
+                node1 = node1.next;
+            } else {
+                if (current == null) {
+                    currentHead = node2;
+                    current = node2;
+                } else {
+                    current.next = node2;
+                    current = current.next;
+                }
+                node2 = node2.next;
+            }
+        }
+
+        current.next = node1 != null ? node1 : node2;
+
+        return currentHead;
+    }
+
+
+    public static void main(String args[]) {
+        MMLL ms = new MMLL();
+        Scanner in=new Scanner(System.in);
+       Random r=new Random();
+        int n;
+      
+        n=in.nextInt();
+          int[] a1=new int[n];
+        for(int i=0;i<n;i++){
+            int rd = r.nextInt(100) + 1;
+            a1[i]=rd;        }
+        for (int i : a1) {
+            ms.add(i);
+        } 
+        ms.sort();
+        ms.displayList();
+
+        System.out.println();
+    }
+}
+
+
+class Node {
+	public int data;
+	public Node next;
+
+	public Node(int data) {
+		this.data = data;
+		this.next = null;
+	}
+}
+
