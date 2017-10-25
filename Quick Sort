@@ -1,0 +1,27 @@
+public class QuickSort {
+    public int partisi(int arr[], int awal, int akhir){
+        int pivot = arr[akhir]; 
+        int i = (awal-1);
+        
+        for (int j=awal; j<=akhir-1; j++){
+            if (arr[j] <= pivot){
+                i++;
+                int temp = arr[i];
+                arr[i] = arr[j];
+                arr[j] = temp;
+            }
+        }
+        int temp = arr[i+1];
+        arr[i+1] = arr[akhir];
+        arr[akhir] = temp;
+        return i+1;
+    }
+    
+    public void sort(int arr[], int awal, int akhir){
+        if (awal < akhir){
+            int p = partisi(arr, awal, akhir);
+            sort(arr, awal, p-1);
+            sort(arr, p+1, akhir);
+        }
+    }
+}
