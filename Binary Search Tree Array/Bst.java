@@ -1,5 +1,3 @@
-package pbstarray;
-
 public class Bst {
     int index=0;
     int max_data = 10000000;
